@@ -95,4 +95,19 @@ class WebsiteSettingController extends Controller
         return to_route('backend.admin.settings.website.general', ['active-tab' => 'google-analytics'])
             ->with('success', 'Updated successfully');
     }
+
+    public function websiteGoogleSignUp(Request $request)
+    {
+        if ($request->google_sign_up_status) {
+            writeConfig('google_sign_up_status', 1);
+        } else {
+            writeConfig('google_sign_up_status', 0);
+        }
+
+        writeConfig('google_client_id', $request->google_client_id);
+        writeConfig('google_client_secret', $request->google_client_secret);
+
+        return to_route('backend.admin.settings.website.general', ['active-tab' => 'google-sign-up'])
+            ->with('success', 'Updated successfully');
+    }
 }

@@ -29,8 +29,13 @@
                 </a>
                 <a class="nav-link {{ @$_GET['active-tab'] == 'google-analytics' ? 'active' : '' }}" id="vert-tabs-6"
                     data-toggle="pill" href="#tabs-6" role="tab" aria-controls="tabs-6" aria-selected="false">
-                    <i class="fab fa-google"></i>
+                    <i class="far fa-chart-bar"></i>
                     &nbsp;Google Analytics
+                </a>
+                <a class="nav-link {{ @$_GET['active-tab'] == 'google-sign-up' ? 'active' : '' }}" id="vert-tabs-7"
+                    data-toggle="pill" href="#tabs-7" role="tab" aria-controls="tabs-7" aria-selected="false">
+                    <i class="fab fa-google"></i>
+                    &nbsp;Google Sign up
                 </a>
             </div>
         </div>
@@ -272,14 +277,13 @@
                         </div>
                     </form>
                 </div>
-
                 <div class="tab-pane fade {{ @$_GET['active-tab'] == 'google-analytics' ? 'active show' : '' }}"
                     id="tabs-6" role="tabpanel" aria-labelledby="vert-tabs-6">
                     <form action="{{ route('backend.admin.settings.website.google.analytics.update') }}" method="post">
                         @csrf
                         <div class="col-md-12 d-flex justify-content-between">
                             <h5>
-                                <i class="fab fa-google"></i>
+                                <i class="far fa-chart-bar"></i>
                                 &nbsp;&nbsp;Google Analytics
                             </h5>
                             <button type="submit" class="btn bg-gradient-primary">
@@ -304,7 +308,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="google_analytics_type">Status</label>
+                                    <label for="google_analytics_type">Type</label>
                                     <div class="form-group">
                                         <select name="google_analytics_type" id="google_analytics_type"
                                             class="form-control">
@@ -339,6 +343,59 @@
                         </div>
                     </form>
                 </div>
+                <div class="tab-pane fade {{ @$_GET['active-tab'] == 'google-sign-up' ? 'active show' : '' }}"
+                    id="tabs-7" role="tabpanel" aria-labelledby="vert-tabs-7">
+                    <form action="{{ route('backend.admin.settings.website.google.sign.up.update') }}" method="post">
+                        @csrf
+                        <div class="col-md-12 d-flex justify-content-between">
+                            <h5>
+                                <i class="fab fa-google"></i>
+                                &nbsp;&nbsp;Google Sign up
+                            </h5>
+                            <button type="submit" class="btn bg-gradient-primary">
+                                <i class="fas fa-reply"></i>
+                                &nbsp;Save Changes
+                            </button>
+                        </div>
+                        <div class="col-md-12 mt-2">
+                            <label for="google_sign_up_status">Status</label>
+                            <div class="form-group">
+                                <div
+                                    class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                                    <input type="checkbox" class="custom-control-input" id="google_sign_up_status"
+                                        name="google_sign_up_status"
+                                        {{ readConfig('google_sign_up_status') == 1 ? 'checked' : '' }}>
+                                    <label class="custom-control-label" for="google_sign_up_status">
+                                        Active
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="">Google Client ID</label>
+                            <div class="form-group">
+                                <input type="text" name="google_client_id" class="form-control"
+                                    value="{{ readConfig('google_client_id') }}">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="">Google Client Secret</label>
+                            <div class="form-group">
+                                <input type="text" name="google_client_secret" class="form-control"
+                                    value="{{ readConfig('google_client_secret') }}">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <p class="text-muted">
+                                [N.B: Add this redirection url "<span
+                                    class="text-primary">{{ readConfig('site_url') }}/auth/google/callback</span>" to your
+                                google api Authorized redirect URIs section.]
+                            </p>
+                        </div>
+                    </form>
+                </div>
+
             </div>
         </div>
     </div>

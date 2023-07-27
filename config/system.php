@@ -1,6 +1,4 @@
-<?php
-
-return array (
+<?php return array (
   'site_url' => 'http://localhost/PixWin/public',
   'site_name' => 'PixWin',
   'site_logo' => '/assets/images/logo/1690092408_64bcc378de361_leaf-icon-35699.png',
@@ -24,8 +22,11 @@ return array (
   'contact_email' => 'veru@mailinator.com',
   'working_hour' => 'Tempora exercitation',
   'custom_css' => NULL,
-  'google_analytics_code' => '',
+  'google_analytics_code' => NULL,
   'google_analytics_status' => 1,
   'google_analytics_id' => 'G-54sdf45',
   'google_analytics_type' => 'id',
+  'google_sign_up_status' => 1,
+  'google_client_id' => '457729777521-9g7e2v43fseh8m44dkf9j747sedhuk6t.apps.googleusercontent.com',
+  'google_client_secret' => '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',
 );

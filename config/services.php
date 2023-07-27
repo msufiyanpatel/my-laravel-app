@@ -1,4 +1,5 @@
 <?php
+$systemConfig = include(config_path('system.php'));
 
 return [
 
@@ -31,4 +32,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'google' => [
+        'client_id' => @$systemConfig['google_client_id'],
+        'client_secret' => @$systemConfig['google_client_secret'],
+        'redirect' => @$systemConfig['site_url'] . '/auth/google/callback',
+    ],
 ];

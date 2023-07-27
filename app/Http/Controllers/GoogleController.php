@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Exception;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 use Laravel\Socialite\Facades\Socialite;
 
 class GoogleController extends Controller
@@ -51,16 +52,7 @@ class GoogleController extends Controller
                 return redirect()->route('login')->with('error', 'Your account is temporarily suspended');
             }
 
-            $authController = new AuthController();
-            $authController->saveTrustedDevice();
-
-            if (session('previous_url')) {
-                $url = session('previous_url');
-                session()->forget('previous_url');
-
-                return redirect($url);
-            }
-            return redirect('/');
+            return redirect(URL('/'));
         } catch (Exception $e) {
             // return $e->getMessage();
             return back()->with('error', 'Something went wrong');
