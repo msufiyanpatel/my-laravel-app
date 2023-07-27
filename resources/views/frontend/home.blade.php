@@ -127,10 +127,12 @@
                     <option value="bmp" {{ strCut(@$_GET['convert']) == 'bmp' ? 'selected' : '' }}>
                         bmp
                     </option>
+                    <option value="webp" {{ strCut(@$_GET['convert']) == 'webp' ? 'selected' : '' }}>
+                        webp
+                    </option>
                     {{-- <option value="tif">tif</option> --}}
                     {{-- <option value="ico">ico</option> --}}
                     {{-- <option value="psd">psd</option> --}}
-                    {{-- <option value="webp">webp</option> --}}
                 </select>
             </div>
             <div class="m-1">

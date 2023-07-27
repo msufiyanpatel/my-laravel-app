@@ -37,7 +37,7 @@ class HomeController extends Controller
     public function convertImages(Request $request)
     {
         $request->validate([
-            'type' => 'required|in:jpg,png,gif,bmp',
+            'type' => 'required|in:jpg,png,gif,bmp,webp',
             'file.*' => 'required|file|mimes:jpg,png,gif,bmp',
         ]);
 
@@ -52,7 +52,7 @@ class HomeController extends Controller
             $storingPath = storage_path() . "/app/public/media/" . $convertedFileName;
 
             // Convert image to the selected format
-            $image = Image::make($file)->encode($outputFormat);
+            $image = Image::make($file)->encode($outputFormat, 100);
             Image::make($image)->save($storingPath);
 
             $item['name'] = $convertedFileName;
