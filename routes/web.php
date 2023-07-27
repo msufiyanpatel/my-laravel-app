@@ -61,6 +61,10 @@ Route::get('dashboard', [UserDashboardController::class, 'index'])->name('fronte
 // admin
 Route::prefix('admin')->middleware(['admin'])->group(function () {
 
+    Route::get('/', function () {
+        return to_route('dashboard.redirect');
+    });
+
     //profile
     Route::get('profile', [DashboardController::class, 'profile'])->name('backend.admin.profile');
 
