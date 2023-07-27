@@ -1,66 +1,93 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+<a href="https://qtecsolution.com/" target="_blank">
+<img src="https://media.licdn.com/dms/image/C510BAQFPADB5GnQEZA/company-logo_200_200/0/1574759253542?e=2147483647&v=beta&t=1cYJ8BJV-mUnLBZlKJEVApQXBj32T6bT2alRbuT_xrw" width="200" alt="qtec Logo">
+</a>
 </p>
 
-## About Laravel
+<h1>PixWin_Laravel</h1>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+<div style="display: flex;">
+    <img src="https://github.com/qtecsolution/alumni_association_laravel/assets/59279508/fdd9cc21-8fc2-4483-aea6-adebfc1acfb2" width="50px" height="50px" alt="Laravel" class="icon">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Vue.png" width="50px" height="50px" alt="Vue.js" class="icon">
+    <img src="https://w7.pngwing.com/pngs/187/112/png-transparent-responsive-web-design-html-computer-icons-css3-world-wide-web-consortium-css-angle-text-rectangle-thumbnail.png" width="50px" height="50px" alt="html" class="icon">
+    <img src="https://img2.freepng.fr/20180816/rcw/kisspng-cascading-style-sheets-logo-clip-art-css3-html-5b7617f67bd3d6.3499284915344660385072.jpg" width="50px" height="50px" alt="CSS" class="icon">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/JavaScript-logo.png/800px-JavaScript-logo.png" alt="JavaScript" width="50px" height="50px" class="icon">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Bootstrap_logo.svg/2560px-Bootstrap_logo.svg.png" width="50px" height="50px"  alt="Bootstrap" class="icon">
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZr_WNLgW3GKtGV0oyCPZdRC_DvwRrXvPy1f2VQ3pG&s" width="50px" height="50px"  alt="Tailwind" class="icon">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Vitejs-logo.svg/1039px-Vitejs-logo.svg.png" width="50px" height="50px"  alt="Bootstrap" class="icon">
+</div> 
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+<p>
+    PixWin is an image converter Laravel project that allows users to convert images from one format to another
+    seamlessly. This project provides a user-friendly web interface where users can upload their images, select the
+    desired output format, and then receive the converted image download link.
+</p>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+<h2>Table of Contents</h2>
+<ul>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#installation">Installation</a></li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#license">License</a></li>
+</ul>
 
-## Learning Laravel
+<h2>Features</h2>
+<ul>
+    <li>Convert images from various formats (e.g., JPG, PNG, GIF) to other formats.</li>
+    <li>User-friendly web interface for easy image upload and conversion.</li>
+    <li>Fast and efficient image conversion process.</li>
+    <li>Download link generation for converted images.</li>
+    <li>Responsive design, compatible with various devices.</li>
+</ul>
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+<h2>Installation</h2>
+<ol>
+<li>Clone the repository from GitHub:</li>
+<code>git clone https://github.com/qtecsolution/PixWin_Laravel.git</code>
+<code>cd PixWin_Laravel</code>
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+<li>Install project dependencies using Composer:</li>
+<code>composer install</code>
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+<li>Set up the database and configure the <code>.env</code> file with your database credentials:</li>
+<code>cp .env.example .env</code>
+<code>php artisan key:generate</code>
+<code>php artisan migrate</code>
 
-## Laravel Sponsors
+<li>Start the development server:</li>
+<code>php artisan serve</code>
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+<li>Open your web browser and navigate to <a href="http://localhost:8000">http://localhost:8000</a> to access the
+    PicLara application.</li>
+</ol>
 
-### Premium Partners
+<h2>Usage</h2>
+<ol>
+    <li>Register an account or log in if you already have one.</li>
+    <li>Once logged in, navigate to the "Home page".</li>
+    <li>Upload an image from your local machine or provide a URL to an image hosted online.</li>
+    <li>Select the output format you want the image to be converted to (e.g., JPG, PNG, GIF).</li>
+    <li>Click the "Convert" button to initiate the conversion process.</li>
+    <li>After the conversion is complete, you will receive a download link for the converted image.</li>
+    <li>Click the download link to save the converted image to your device.</li>
+</ol>
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+<h2>Contributing</h2>
+<p>
+    We welcome contributions to enhance the features and fix issues of PicLara. To contribute:
+</p>
+<ol>
+    <li>Fork the repository to your GitHub account.</li>
+    <li>Create a new branch from the <code>main</code> branch with a descriptive name for your changes.</li>
+    <li>Make your modifications and commit them with clear and concise commit messages.</li>
+    <li>Push your changes to your forked repository.</li>
+    <li>Submit a pull request to the original repository, detailing the changes you made.</li>
+</ol>
 
-## Contributing
+<h2>License</h2>
+<p>
+    This project is licensed under the <a href="LICENSE">MIT License</a>, which means you are free to use, modify, and
+    distribute this project with proper attribution to Qtec Solution Limited.
+</p>
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
