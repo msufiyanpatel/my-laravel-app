@@ -93,6 +93,7 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
                 Route::post('update-social-links', 'websiteSocialLinkUpdate')->name('backend.admin.settings.website.social.link.update');
                 Route::post('update-style-settings', 'websiteStyleSettingsUpdate')->name('backend.admin.settings.website.style.settings.update');
                 Route::post('update-custom-css', 'websiteCustomCssUpdate')->name('backend.admin.settings.website.custom.css.update');
+                Route::post('update-google-analytics', 'websiteGoogleAnalytics')->name('backend.admin.settings.website.google.analytics.update');
             });
         });
     });

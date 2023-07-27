@@ -66,4 +66,14 @@
   'contact_email' => 'veru@mailinator.com',
   'working_hour' => 'Tempora exercitation',
   'custom_css' => NULL,
+  'google_analytics_code' => '<div class="col-md-12 {{ readConfig(\'google_analytics_type\') == \'code\' ? \'\' : \'d-none\' }}"
+                            id="google_analytics_code_section">
+                            <label for="">Or you can paste your Google code directly here</label>
+                            <div class="form-group">
+                                <textarea placeholder="" class="form-control" rows="17" name="google_analytics_code" cols="50">{{ readConfig(\'google_analytics_code\') }}</textarea>
+                            </div>
+                        </div>',
+  'google_analytics_status' => 1,
+  'google_analytics_id' => 'G-54sdf45',
+  'google_analytics_type' => 'id',
 );

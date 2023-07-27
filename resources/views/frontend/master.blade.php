@@ -34,6 +34,31 @@
         </style>
     @endif
 
+
+    {{-- Google Tags and google analytics --}}
+    @if (readConfig('google_analytics_status') == 1 &&
+            readConfig('google_analytics_id') &&
+            readConfig('google_analytics_type') == 'id')
+        <!-- Google Tag Manager -->
+        <script>
+            (function(w, d, s, l, i) {
+                w[l] = w[l] || [];
+                w[l].push({
+                    'gtm.start': new Date().getTime(),
+                    event: 'gtm.js'
+                });
+                var f = d.getElementsByTagName(s)[0],
+                    j = d.createElement(s),
+                    dl = l != 'dataLayer' ? '&l=' + l : '';
+                j.async = true;
+                j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+                f.parentNode.insertBefore(j, f);
+            })(window, document, 'script', 'dataLayer', "{!! readConfig('google_analytics_id') !!}");
+        </script>
+        <!-- End Google Tag Manager -->
+    @endif
+
     @vite('resources/css/app.css')
     @stack('style')
 </head>
@@ -49,6 +74,22 @@
     {{-- === main content end === --}}
 
     @include('frontend.footer')
+
+    {{-- Google Tags and google analytics --}}
+    @if (readConfig('google_analytics_status') == 1)
+        <!-- Google Tag Manager (noscript) -->
+        @if (readConfig('google_analytics_id') && readConfig('google_analytics_type') == 'id')
+            <noscript>
+                <iframe src="//www.googletagmanager.com/ns.html?id={!! readConfig('google_analytics_id') !!}" height="0"
+                    width="0" style="display:none;visibility:hidden"></iframe>
+            </noscript>
+        @endif
+        <!-- End Google Tag Manager (noscript) -->
+        @if (readConfig('google_analytics_type') == 'code')
+            {!! readConfig('google_analytics_code') !!}
+        @endif
+    @endif
+
     @stack('script')
 
 </body>

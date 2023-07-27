@@ -27,6 +27,11 @@
                     <i class="fas fa-code"></i>
                     &nbsp;Custom CSS
                 </a>
+                <a class="nav-link {{ @$_GET['active-tab'] == 'google-analytics' ? 'active' : '' }}" id="vert-tabs-6"
+                    data-toggle="pill" href="#tabs-6" role="tab" aria-controls="tabs-6" aria-selected="false">
+                    <i class="fab fa-google"></i>
+                    &nbsp;Google Analytics
+                </a>
             </div>
         </div>
         <div class="col-8 col-sm-10">
@@ -267,6 +272,73 @@
                         </div>
                     </form>
                 </div>
+
+                <div class="tab-pane fade {{ @$_GET['active-tab'] == 'google-analytics' ? 'active show' : '' }}"
+                    id="tabs-6" role="tabpanel" aria-labelledby="vert-tabs-6">
+                    <form action="{{ route('backend.admin.settings.website.google.analytics.update') }}" method="post">
+                        @csrf
+                        <div class="col-md-12 d-flex justify-content-between">
+                            <h5>
+                                <i class="fab fa-google"></i>
+                                &nbsp;&nbsp;Google Analytics
+                            </h5>
+                            <button type="submit" class="btn bg-gradient-primary">
+                                <i class="fas fa-reply"></i>
+                                &nbsp;Save Changes
+                            </button>
+                        </div>
+                        <div class="col-md-12 mt-2">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="google_analytics_status">Status</label>
+                                    <div class="form-group">
+                                        <div
+                                            class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                                            <input type="checkbox" class="custom-control-input"
+                                                id="google_analytics_status" name="google_analytics_status"
+                                                {{ readConfig('google_analytics_status') == 1 ? 'checked' : '' }}>
+                                            <label class="custom-control-label" for="google_analytics_status">
+                                                Active
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="google_analytics_type">Status</label>
+                                    <div class="form-group">
+                                        <select name="google_analytics_type" id="google_analytics_type"
+                                            class="form-control">
+                                            <option value="id"
+                                                {{ readConfig('google_analytics_type') == 'id' ? 'selected' : '' }}>
+                                                ID
+                                            </option>
+                                            <option value="code"
+                                                {{ readConfig('google_analytics_type') == 'code' ? 'selected' : '' }}>
+                                                Code
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 {{ readConfig('google_analytics_type') || !readConfig('google_analytics_type') == 'id' ? '' : 'd-none' }}"
+                            id="google_analytics_id_section">
+                            <label for="">Container Id</label>
+                            <div class="form-group">
+                                <input type="text" name="google_analytics_id" class="form-control"
+                                    value="{{ readConfig('google_analytics_id') }}">
+                            </div>
+                        </div>
+                        <div class="col-md-12 {{ readConfig('google_analytics_type') == 'code' ? '' : 'd-none' }}"
+                            id="google_analytics_code_section">
+                            <label for="">Or you can paste your Google code directly here</label>
+                            <div class="form-group">
+                                <textarea placeholder="" class="form-control" rows="17" name="google_analytics_code" cols="50">{{ readConfig('google_analytics_code') }}</textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -279,6 +351,16 @@
                 $("#close_msg_div").removeClass('d-none');
             } else {
                 $("#close_msg_div").addClass('d-none');
+            }
+        });
+
+        $("#google_analytics_type").on('change', function() {
+            if (this.value == 'id') {
+                $("#google_analytics_id_section").removeClass("d-none");
+                $("#google_analytics_code_section").addClass("d-none");
+            } else {
+                $("#google_analytics_id_section").addClass("d-none");
+                $("#google_analytics_code_section").removeClass("d-none");
             }
         });
     </script>

@@ -81,4 +81,18 @@ class WebsiteSettingController extends Controller
             ->with('success', 'Updated successfully');
     }
 
+    public function websiteGoogleAnalytics(Request $request)
+    {
+        if ($request->google_analytics_status) {
+            writeConfig('google_analytics_status', 1);
+        } else {
+            writeConfig('google_analytics_status', 0);
+        }
+        writeConfig('google_analytics_type', $request->google_analytics_type);
+        writeConfig('google_analytics_id', $request->google_analytics_id);
+        writeConfig('google_analytics_code', $request->google_analytics_code);
+
+        return to_route('backend.admin.settings.website.general', ['active-tab' => 'google-analytics'])
+            ->with('success', 'Updated successfully');
+    }
 }
