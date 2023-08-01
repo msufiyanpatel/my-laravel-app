@@ -3,14 +3,16 @@
 use App\Models\Page;
 use App\Models\Setting;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Contracts\Encryption\DecryptException;
 
 if (!function_exists('imageRecover')) {
 
     function imageRecover($path)
     {
         if ($path == null || !\Illuminate\Support\Facades\Storage::disk('public')->exists($path)) {
-            return asset('dist/img/default-150x150.png');
+            return null;
         }
 
         $storage_link = \Illuminate\Support\Facades\Storage::url($path);
@@ -32,7 +34,6 @@ if (!function_exists('imageRecoverNull')) {
         return asset($storage_link);
     }
 }
-
 
 if (!function_exists('docRecover')) {
 
@@ -119,5 +120,23 @@ if (!function_exists('strCut')) {
     {
         $words = explode("-", $string);
         return end($words);
+    }
+}
+
+if (!function_exists('routeEncrypt')) {
+    function routeEncrypt($value)
+    {
+        return Crypt::encrypt($value);
+    }
+}
+
+if (!function_exists('routeDecrypt')) {
+    function routeDecrypt($value)
+    {
+        try {
+            return Crypt::decrypt($value);
+        } catch (DecryptException $e) {
+            return null;
+        }
     }
 }

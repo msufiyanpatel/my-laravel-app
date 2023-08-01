@@ -26,7 +26,10 @@ use App\Http\Controllers\Backend\WebsiteSettingController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+Route::post('dropzone/store', [HomeController::class, 'dropzoneStore'])->name('dropzone.store');
 Route::post('convert', [HomeController::class, 'convertImages'])->name('convert');
+Route::get('recent-images', [HomeController::class, 'recentImages'])->name('recent.images');
+Route::get('delete-image/{id}', [HomeController::class, 'deleteImage'])->name('delete.image');
 
 // dynamic pages 
 Route::get('{slug}/page', [HomeController::class, 'dynamicPage'])->name('frontend.dynamic.page');

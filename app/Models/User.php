@@ -53,6 +53,6 @@ class User extends Authenticatable
 
     public function getProPicAttribute()
     {
-        return imageRecover($this->profile_image);
+        return imageRecoverNull($this->profile_image);
     }
 }

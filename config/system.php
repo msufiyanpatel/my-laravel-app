@@ -9,7 +9,7 @@
   'facebook_link' => 'https://www.bycokepuxex.me.uk',
   'twitter_link' => 'https://www.fulureqobaky.me.uk',
   'instagram_link' => 'https://www.tomiqawynewibyb.org.uk',
-  'youtube_link' => 'https://www.qafuq.us',
+  'youtube_link' => NULL,
   'linkedin_link' => 'https://www.lebymuby.com',
   'pinterest_link' => 'https://www.diduxavazipuqol.net',
   'whatsapp_link' => 'https://www.jivimimuwo.me.uk',

@@ -1,4 +1,72 @@
 @extends('frontend.master')
+@push('style')
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.2.0/min/dropzone.min.js"></script>
+
+    <style>
+        /* Position the tooltip */
+        .slider-container {
+            position: relative;
+        }
+
+        /* Style the tooltip */
+        .slider-value {
+            position: absolute;
+            top: -35px;
+            /* Adjust this value to position the tooltip vertically */
+            left: 50%;
+            margin-left: 14px;
+            transform: translateX(-50%);
+            padding: 5px 10px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            font-size: 12px;
+            border-radius: 4px;
+            pointer-events: none;
+            /* Ensure the tooltip doesn't interfere with the slider */
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        /* Show the tooltip when hovering over the slider */
+        .slider-container:hover .slider-value {
+            opacity: 1;
+        }
+
+        /* Styling for the slider thumb */
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 10px;
+            border-radius: 5px;
+            background: #a5b4fc;
+            outline: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 2px solid #6b7280;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+        }
+
+        /* Thumb styles on hover and active states */
+        input[type="range"]::-webkit-slider-thumb:hover {
+            background-color: #e5e7eb;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:active {
+            background-color: #d1d5db;
+        }
+    </style>
+@endpush
 
 @section('content')
 
@@ -21,95 +89,21 @@
         @endif
     @endif
 
+    <div class="max-w-screen-xl px-4 py-12 mx-auto space-y-8 overflow-hidden sm:px-6 lg:px-8 mt-5">
+        {!! Form::open([
+            'route' => ['dropzone.store'],
+            'files' => true,
+            'enctype' => 'multipart/form-data',
+            'class' => 'dropzone',
+            'id' => 'image-upload',
+        ]) !!}
+        {!! Form::close() !!}
+    </div>
+
     <form action="{{ route('convert') }}" method="post" enctype="multipart/form-data">
         @csrf
-
-        <div class="bg-white p7 rounded w-9/12 mx-auto my-10 z-0 converter-panel">
-            <div x-data="dataFileDnD()" class="relative flex flex-col p-4 text-gray-400 border border-gray-200 rounded">
-                <div x-ref="dnd"
-                    class="relative flex flex-col text-gray-400 border border-gray-200 border-dashed rounded cursor-pointer">
-                    <input accept="*" type="file" multiple name="file[]" required
-                        class="absolute inset-0 z-0 w-full h-full p-0 m-0 outline-none opacity-0 cursor-pointer"
-                        @change="addFiles($event)"
-                        @dragover="$refs.dnd.classList.add('border-blue-400'); $refs.dnd.classList.add('ring-4'); $refs.dnd.classList.add('ring-inset');"
-                        @dragleave="$refs.dnd.classList.remove('border-blue-400'); $refs.dnd.classList.remove('ring-4'); $refs.dnd.classList.remove('ring-inset');"
-                        @drop="$refs.dnd.classList.remove('border-blue-400'); $refs.dnd.classList.remove('ring-4'); $refs.dnd.classList.remove('ring-inset');"
-                        title="" />
-
-                    <div class="flex flex-col items-center justify-center py-10 text-center">
-                        <svg class="w-6 h-6 mr-1 text-current-50" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                        <p class="m-0">Drag your files here or click in this area.</p>
-                    </div>
-                </div>
-
-                <template x-if="files.length > 0">
-                    <div class="grid grid-cols-2 gap-4 mt-4 md:grid-cols-6" @drop.prevent="drop($event)"
-                        @dragover.prevent="$event.dataTransfer.dropEffect = 'move'">
-                        <template x-for="(_, index) in Array.from({ length: files.length })">
-                            <div class="relative flex flex-col items-center overflow-hidden text-center bg-gray-100 border rounded cursor-move select-none"
-                                style="padding-top: 100%;" @dragstart="dragstart($event)" @dragend="fileDragging = null"
-                                :class="{ 'border-blue-600': fileDragging == index }" draggable="true"
-                                :data-index="index">
-                                <button class="absolute top-0 right-0 z-0 p-1 bg-white rounded-bl focus:outline-none"
-                                    type="button" @click="remove(index)">
-                                    <svg class="w-4 h-4 text-gray-700" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                    </svg>
-                                </button>
-                                <template x-if="files[index].type.includes('audio/')">
-                                    <svg class="absolute w-12 h-12 text-gray-400 transform top-1/2 -translate-y-2/3"
-                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
-                                    </svg>
-                                </template>
-                                <template x-if="files[index].type.includes('application/') || files[index].type === ''">
-                                    <svg class="absolute w-12 h-12 text-gray-400 transform top-1/2 -translate-y-2/3"
-                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                                    </svg>
-                                </template>
-                                <template x-if="files[index].type.includes('image/')">
-                                    <img class="absolute inset-0 z-0 object-cover w-full h-full border-4 border-white preview"
-                                        x-bind:src="loadFile(files[index])" />
-                                </template>
-                                <template x-if="files[index].type.includes('video/')">
-                                    <video
-                                        class="absolute inset-0 object-cover w-full h-full border-4 border-white pointer-events-none preview">
-                                        <fileDragging x-bind:src="loadFile(files[index])" type="video/mp4">
-                                    </video>
-                                </template>
-
-                                <div
-                                    class="absolute bottom-0 left-0 right-0 flex flex-col p-2 text-xs bg-white bg-opacity-50">
-                                    <span class="w-full font-bold text-gray-900 truncate"
-                                        x-text="files[index].name">Loading</span>
-                                    <span class="text-xs text-gray-900" x-text="humanFileSize(files[index].size)">...</span>
-                                </div>
-
-                                <div class="absolute inset-0 z-0 transition-colors duration-300"
-                                    @dragenter="dragenter($event)" @dragleave="fileDropping = null"
-                                    :class="{ 'bg-blue-200 bg-opacity-80': fileDropping == index && fileDragging != index }">
-                                </div>
-                            </div>
-                        </template>
-
-                    </div>
-                </template>
-            </div>
-            <small class="text-gray-500">[jpg,png,gif,bmp]</small>
-        </div>
-
-
+        <input type="hidden" name="file" id="uploaded-images" value="[]">
+        <input type="hidden" name="name" id="uploaded-images-name" value="[]">
         <div class="flex justify-center">
             <div class="m-1">
                 <select name="type" required
@@ -143,29 +137,128 @@
             </div>
         </div>
 
-    </form>
 
-    <!-- Add this right after the form tag -->
-    @if (count($downloadLinks) > 0)
-        <div class="bg-white p7 rounded w-9/12 mx-auto my-10">
-            <div class="relative flex flex-col p-4 text-blue-400 border border-gray-200 rounded">
-                <ul class="list-disc px-5">
-                    @foreach ($downloadLinks as $key => $data)
-                        <li class="p-1">
-                            <a href="{{ $data['link'] }}" target="_blank" title="Download: {{ $data['name'] }}">
-                                {{ $data['name'] }}
-                            </a>
-                            <a href="{{ $data['link'] }}" target="_blank" download="{{ $data['name'] }}"
-                                title="Download"
-                                class="bg-sky-400 hover:bg-blue-500 text-white text-sm py-1 px-1  rounded">
-                                Download
-                            </a>
-                        </li>
+
+        <!-- Add this right after the form tag -->
+        @if (count($files) > 0)
+            <div
+                class="max-w-screen-xl p-4 mx-auto space-y-8 overflow-hidden sm:px-6 lg:px-8 mt-5 border border-gray-200 rounded">
+                <h1>Output:</h1>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 ">
+                    @foreach ($files as $key => $data)
+                        <div class="flex justify-center">
+                            <div>
+                                <a href="{{ $data->converted }}" target="_blank" title="Download: {{ $data->file_name }}">
+                                    <img class="object-scale-down h-48 w-96" src="{{ $data->converted }}"
+                                        alt="{{ $data->file_name }}">
+                                    <br>
+                                    <span class="text-blue-400">{{ $data->file_name }}</span>
+                                </a>
+                                <a href="{{ $data->converted }}" target="_blank" download="{{ $data->file_name }}"
+                                    title="Download"
+                                    class="bg-sky-400 hover:bg-blue-500 text-white text-sm py-1 px-1 rounded ml-1">
+                                    Download
+                                </a>
+                                <a href="{{ route('delete.image', routeEncrypt($data->id)) }}" title="Delete this image"
+                                    class="bg-red-400 hover:bg-red-500 text-white text-sm py-1 px-1 rounded ml-1">
+                                    Delete
+                                </a>
+                            </div>
+                        </div>
                     @endforeach
+                </div>
+            </div>
+        @endif
+
+        <div class="max-w-screen-xl px-4 mx-auto space-y-8 overflow-hidden sm:px-6 lg:px-8 mt-5">
+            <div class="container flex justify-between  mt-5">
+                <h2>OPTIONS</h2>
+                <svg width="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm2-13c0 .28-.21.8-.42 1L10 9.58c-.57.58-1 1.6-1 2.42v1h2v-1c0-.29.21-.8.42-1L13 9.42c.57-.58 1-1.6 1-2.42a4 4 0 1 0-8 0h2a2 2 0 1 1 4 0zm-3 8v2h2v-2H9z" />
+                </svg>
+            </div>
+            <div class="flex justify-center">
+                <div class="flex flex-wrap -mx-3 mb-2">
+                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="height">
+                            Height
+                        </label>
+                        <input
+                            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            type="number" name="height" placeholder="">
+                    </div>
+                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="width">
+                            Width
+                        </label>
+                        <input
+                            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            type="number" name="width" placeholder="">
+                    </div>
+                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="fit">
+                            Fit
+                        </label>
+                        <div class="relative">
+                            <select
+                                class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                name="size_type">
+                                <option>max</option>
+                                <option>crop</option>
+                                <option>scale</option>
+                            </select>
+                            <div class="absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
+                                title="Setting these options is optional. The default values are a good start for most cases.">
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="text-gray-400">
+                Sets the mode of resizing the image. "Max" resizes the image to fit within the width and height, but will
+                not increase the size of the image if it is smaller than width or height. "Crop" resizes the image to
+                fill the width and height dimensions and crops any excess image data. "Scale" enforces the image width
+                and height by scaling.
+            </p>
+        </div>
+
+        <div class="max-w-screen-xl px-4 py-12 mx-auto space-y-8 overflow-hidden sm:px-6 lg:px-8 mt-5">
+            <div class="quality text-gray-500">
+                <h5 class="text-3xl">Image Quality:</h5>
+                <p class="mb-2">
+                    Use the slider to select the image compression quality:
+                </p>
+                <ul class="mb-4">
+                    <li>Lower values give better compression (at the cost of image quality). Lowest value is 10.</li>
+                    <li>Higher values may increase the size of the image. Higest value is 100.</li>
+                    <li>Default (60) is a good balance between image quality and compression.</li>
                 </ul>
+
+                <div class="slider-container">
+                    <input id="large-range" type="range" value="60" min="10" max="100" step="1"
+                        name="range">
+                    <span id="range-value" class="slider-value">60</span>
+                </div>
             </div>
         </div>
-    @endif
+    </form>
+
+
+
+
+    <div class="max-w-screen-xl p-4 mx-auto space-y-8 overflow-hidden sm:px-6 lg:px-8 flex justify-center"
+        id="recent-button-section">
+        <button type="button" onclick="loadRecentImages()" title="View your last 12 converted images"
+            class="py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
+            Recently converted images
+        </button>
+    </div>
+
+
 
     {{-- middle add --}}
     @if ($middle_add && $middle_add->status == 1)
@@ -180,7 +273,6 @@
 
     {{-- footer top section --}}
     <div class="max-w-screen-xl px-4 py-12 mx-auto space-y-8 overflow-hidden sm:px-6 lg:px-8 mt-5">
-
         <h5 class="text-4xl">How to convert?</h5>
         <p>
             1. Upload an image<br>
@@ -189,8 +281,6 @@
             4. Wait for the conversion to finish and hit the "Download" button to download a single image<br>
             5. Finally, click on "Convert another image" to try another one.
         </p>
-
-
 
         <h5 class="text-4xl">Popular Fromats:</h5>
         <div class="grid grid-cols-2 grid-flow-row">
@@ -260,68 +350,59 @@
 @endsection
 
 @push('script')
-    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
-    <script src="https://unpkg.com/create-file-list"></script>
     <script>
-        function dataFileDnD() {
-            return {
-                files: [],
-                fileDragging: null,
-                fileDropping: null,
-                humanFileSize(size) {
-                    const i = Math.floor(Math.log(size) / Math.log(1024));
-                    return (
-                        (size / Math.pow(1024, i)).toFixed(2) * 1 +
-                        " " + ["B", "kB", "MB", "GB", "TB"][i]
-                    );
-                },
-                remove(index) {
-                    let files = [...this.files];
-                    files.splice(index, 1);
-
-                    this.files = createFileList(files);
-                },
-                drop(e) {
-                    let removed, add;
-                    let files = [...this.files];
-
-                    removed = files.splice(this.fileDragging, 1);
-                    files.splice(this.fileDropping, 0, ...removed);
-
-                    this.files = createFileList(files);
-
-                    this.fileDropping = null;
-                    this.fileDragging = null;
-                },
-                dragenter(e) {
-                    let targetElem = e.target.closest("[draggable]");
-
-                    this.fileDropping = targetElem.getAttribute("data-index");
-                },
-                dragstart(e) {
-                    this.fileDragging = e.target
-                        .closest("[draggable]")
-                        .getAttribute("data-index");
-                    e.dataTransfer.effectAllowed = "move";
-                },
-                loadFile(file) {
-                    const preview = document.querySelectorAll(".preview");
-                    const blobUrl = URL.createObjectURL(file);
-
-                    preview.forEach((elem) => {
-                        elem.onload = () => {
-                            URL.revokeObjectURL(elem.src); // free memory
-                        };
-                    });
-
-                    return blobUrl;
-                },
-                addFiles(e) {
-                    const files = createFileList([...this.files], [...e.target.files]);
-                    this.files = files;
-                    this.form.formData.files = [...files];
-                },
-            };
+        function loadRecentImages() {
+            $.ajax({
+                url: "{{ route('recent.images') }}",
+                success(response) {
+                    $('#recent-button-section')
+                        .addClass("rounded border border-gray-200")
+                        .html(response);
+                }
+            });
         }
+    </script>
+
+    <script>
+        const rangeSlider = document.getElementById("large-range");
+        const rangeValueElement = document.getElementById("range-value");
+
+        // Function to update the range value display
+        function updateRangeValue() {
+            const newValue = rangeSlider.value;
+            const newPosition = (rangeSlider.offsetWidth - 28) * (newValue - rangeSlider.min) / (rangeSlider.max -
+                rangeSlider.min);
+            rangeValueElement.innerText = newValue;
+            rangeValueElement.style.left = newPosition + "px";
+        }
+
+        // Call the function to update the display initially
+        updateRangeValue();
+
+        // Add an event listener to listen for changes in the range slider value
+        rangeSlider.addEventListener("input", updateRangeValue);
+    </script>
+
+    <script type="text/javascript">
+        Dropzone.options.imageUpload = {
+            maxFilesize: 1,
+            acceptedFiles: ".jpeg,.jpg,.png,.gif",
+            init: function() {
+                var uploadedImages = [];
+                var uploadedImagesName = [];
+
+                this.on("success", function(file, response) {
+                    if (response && response.file_path) {
+                        console.log(response);
+                        uploadedImages.push(response.file_path);
+                        uploadedImagesName.push(response.file_name);
+
+                        document.getElementById("uploaded-images").value = JSON.stringify(uploadedImages);
+                        document.getElementById("uploaded-images-name").value = JSON.stringify(
+                            uploadedImagesName);
+                    }
+                });
+            },
+        };
     </script>
 @endpush

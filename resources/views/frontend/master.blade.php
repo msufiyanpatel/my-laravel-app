@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ readConfig('site_name') }}</title>
-
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <!-- FAVICON ICON -->
     <link rel="shortcut icon" href="{{ assetImage(readconfig('favicon_icon')) }}" type="image/svg+xml">
 
@@ -89,6 +89,9 @@
             {!! readConfig('google_analytics_code') !!}
         @endif
     @endif
+
+    <!-- jQuery -->
+    <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
 
     @stack('script')
 

@@ -98,10 +98,10 @@ class UserManagementController extends Controller
                     foreach ($data->items as $value) {
                         $data_set .= '
                             <li class="p-1">
-                                <a href="' . $value['file_url'] . '" target="_blank" title="Download: ' . $value['file_name'] . '">
-                                    ' . $value['file_name'] . '
+                                <a href="' . $value->converted . '" target="_blank" title="Download: ' . $value->file_name . '">
+                                    ' . $value->file_name . '
                                 </a>
-                                <a href="' . $value['file_url'] . '" target="_blank" download="' . $value['file_name'] . '" title="Download"
+                                <a href="' . $value->converted . '" target="_blank" download="' . $value->file_name . '" title="Download"
                                     class="btn btn-sm bg-primary">
                                     Download
                                 </a>
@@ -142,11 +142,15 @@ class UserManagementController extends Controller
                     foreach ($data->items as $value) {
                         $data_set .= '
                             <li class="p-1">
-                                <a href="' . $value['file_url'] . '" target="_blank" title="Download: ' . $value['file_name'] . '">
-                                    ' . $value['file_name'] . '
+                                <a href="' . $value->converted . '" target="_blank" title="Download: ' . $value->file_name . '">
+                                    ' . $value->file_name . '
                                 </a>
-                                <a href="' . $value['file_url'] . '" target="_blank" download="' . $value['file_name'] . '" title="Download"
+                                <a href="' . $value->converted . '" target="_blank" download="' . $value->file_name . '" title="Download"
                                     class="btn btn-sm bg-primary">
+                                    Download
+                                </a>
+                                <a href="' . route('delete.image', routeEncrypt($value->id)) . '"
+                                    class="btn btn-sm bg-danger">
                                     Download
                                 </a>
                             </li>';

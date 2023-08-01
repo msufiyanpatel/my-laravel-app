@@ -10,6 +10,7 @@ class UserDashboardController extends Controller
     public function index()
     {
         $history = ConversionHistory::with('items')
+            ->whereHas('items')
             ->where('user_id', auth()->id())
             ->latest()
             ->get();

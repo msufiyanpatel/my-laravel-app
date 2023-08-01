@@ -68,3 +68,7 @@ body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-head
 .popular-format {
     line-height: 35px;
 }
+
+.dropzone.dz-clickable {
+    border-radius: 10px;
+}
