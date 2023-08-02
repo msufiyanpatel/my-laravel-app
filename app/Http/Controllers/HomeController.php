@@ -72,36 +72,45 @@ class HomeController extends Controller
 
                 if ($request->width && $request->height) {
 
-                    if ($request->size_type == "max") {
-                        $file->resizeDown($request->width, $request->height);
-                    } else if ($request->size_type == "crop") {
+                    if ($request->size_type == "Max") {
+                        $file->resize($request->width, $request->height, function ($constraint) {
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        });
+                    } else if ($request->size_type == "Crop") {
                         $file->fit($request->width, $request->height);
-                    } else if ($request->size_type == "scale") {
-                        $file->scaleDown($request->width, $request->height);
+                    } else if ($request->size_type == "Scale") {
+                        $file->resize($request->width, $request->height);
                     }
                 } else if ($request->width) {
 
-                    if ($request->size_type == "max") {
-                        $file->resizeDown(width: $request->width);
-                    } else if ($request->size_type == "crop") {
+                    if ($request->size_type == "Max") {
+                        $file->resize($request->width, null, function ($constraint) {
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        });
+                    } else if ($request->size_type == "Crop") {
                         $file->fit(width: $request->width);
-                    } else if ($request->size_type == "scale") {
-                        $file->scaleDown(width: $request->width);
+                    } else if ($request->size_type == "Scale") {
+                        $file->resize($request->width, null);
                     }
                 } else if ($request->height) {
 
-                    if ($request->size_type == "max") {
-                        $file->resizeDown(height: $request->height);
-                    } else if ($request->size_type == "crop") {
+                    if ($request->size_type == "Max") {
+                        $file->resize(null, $request->height, function ($constraint) {
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        });
+                    } else if ($request->size_type == "Crop") {
                         $file->fit(height: $request->height);
-                    } else if ($request->size_type == "scale") {
-                        $file->scaleDown(height: $request->height);
+                    } else if ($request->size_type == "Scale") {
+                        $file->resize(null, $request->height);
                     }
                 }
             }
 
             // Convert image to the selected format and image quality
-            $file->encode($outputFormat, $request->range);
+            $file->encode($outputFormat);
 
             $storingPath = storage_path() . "/app/public/media/converted/" . $convertedFileName;
             $originalPath = storage_path() . "/app/public/media/original/" . $filename;
@@ -110,7 +119,7 @@ class HomeController extends Controller
             File::move(storage_path($file_path), $originalPath);
 
             // save to server
-            Image::make($file)->save($storingPath);
+            Image::make($file)->save($storingPath, $request->range);
 
             $item['name'] = $convertedFileName;
             $item['link'] = "media/converted/" . $convertedFileName;
@@ -144,12 +153,18 @@ class HomeController extends Controller
     public function dropzoneStore(Request $request)
     {
         $image = $request->file('file');
+        $extension = $image->extension();
 
-        $imageName = time() . rand(1111, 9999) . '.' . $image->extension();
+        $imageName = time() . rand(1111, 9999) . '.' . $extension;
         $image->move(storage_path() . "/app/public/media/temp", $imageName);
         $path = "/app/public/media/temp/" . $imageName;
 
-        return response()->json(['success' => true, 'file_name' => $imageName, 'file_path' => $path]);
+        return response()->json([
+            'success' => true,
+            'file_name' => $imageName,
+            'file_extension' => $extension,
+            'file_path' => $path
+        ]);
     }
 
     public function dynamicPage($slug)

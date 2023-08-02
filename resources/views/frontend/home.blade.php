@@ -12,7 +12,7 @@
         /* Style the tooltip */
         .slider-value {
             position: absolute;
-            top: -35px;
+            top: -30px;
             /* Adjust this value to position the tooltip vertically */
             left: 50%;
             margin-left: 14px;
@@ -89,7 +89,7 @@
         @endif
     @endif
 
-    <div class="max-w-screen-xl px-4 py-12 mx-auto space-y-8 overflow-hidden sm:px-6 lg:px-8 mt-5">
+    <div id="first" class="max-w-screen-xl px-4 py-2 mx-auto space-y-8 overflow-hidden sm:px-6 lg:px-8 mt-5">
         {!! Form::open([
             'route' => ['dropzone.store'],
             'files' => true,
@@ -97,6 +97,18 @@
             'class' => 'dropzone',
             'id' => 'image-upload',
         ]) !!}
+
+        <div class="justify-center dz-default dz-message">
+            <div class="flex justify-center">
+                <svg width="40" height="40" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M22.71 6.29a1 1 0 0 0-1.42 0L20 7.59V2a1 1 0 0 0-2 0v5.59l-1.29-1.3a1 1 0 0 0-1.42 1.42l3 3a1 1 0 0 0 .33.21.94.94 0 0 0 .76 0 1 1 0 0 0 .33-.21l3-3a1 1 0 0 0 0-1.42ZM19 13a1 1 0 0 0-1 1v.38l-1.48-1.48a2.79 2.79 0 0 0-3.93 0l-.7.7-2.48-2.48a2.85 2.85 0 0 0-3.93 0L4 12.6V7a1 1 0 0 1 1-1h8a1 1 0 0 0 0-2H5a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3v-5a1 1 0 0 0-1-1ZM5 20a1 1 0 0 1-1-1v-3.57l2.9-2.9a.79.79 0 0 1 1.09 0l3.17 3.17 4.3 4.3Zm13-1a.89.89 0 0 1-.18.53L13.31 15l.7-.7a.77.77 0 0 1 1.1 0L18 17.21Z"
+                        fill="#000000" class="fill-6563ff"></path>
+                </svg>
+            </div>
+            <span>Drop file here to upload</span>
+        </div>
+
         {!! Form::close() !!}
     </div>
 
@@ -105,6 +117,17 @@
         <input type="hidden" name="file" id="uploaded-images" value="[]">
         <input type="hidden" name="name" id="uploaded-images-name" value="[]">
         <div class="flex justify-center">
+            <div class="m-1 hidden" id="from-format">
+                <select name="type"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option value="" hidden>Choose a format</option>
+                    <option value="" selected id="from-select">
+                        jpg
+                    </option>
+                </select>
+            </div>
+            <span class="mt-3 hidden" id="to-text">To</span>
+
             <div class="m-1">
                 <select name="type" required
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -138,7 +161,6 @@
         </div>
 
 
-
         <!-- Add this right after the form tag -->
         @if (count($files) > 0)
             <div
@@ -170,8 +192,8 @@
             </div>
         @endif
 
-        <div class="max-w-screen-xl px-4 mx-auto space-y-8 overflow-hidden sm:px-6 lg:px-8 mt-5">
-            <div class="container flex justify-between  mt-5">
+        <div class="max-w-screen-xl px-4 mx-auto space-y-8 overflow-hidden sm:px-6 lg:px-8">
+            <div class="container flex justify-between">
                 <h2>OPTIONS</h2>
                 <svg width="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -179,7 +201,7 @@
                 </svg>
             </div>
             <div class="flex justify-center">
-                <div class="flex flex-wrap -mx-3 mb-2">
+                <div class="flex flex-wrap-mx-3 mb-2">
                     <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="height">
                             Height
@@ -204,9 +226,9 @@
                             <select
                                 class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                 name="size_type">
-                                <option>max</option>
-                                <option>crop</option>
-                                <option>scale</option>
+                                <option>Max</option>
+                                <option>Crop</option>
+                                <option>Scale</option>
                             </select>
                             <div class="absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
                                 title="Setting these options is optional. The default values are a good start for most cases.">
@@ -218,16 +240,21 @@
                     </div>
                 </div>
             </div>
-            <p class="text-gray-400">
+            <span class="text-gray-400 text-xs">
                 Sets the mode of resizing the image. "Max" resizes the image to fit within the width and height, but will
                 not increase the size of the image if it is smaller than width or height. "Crop" resizes the image to
                 fill the width and height dimensions and crops any excess image data. "Scale" enforces the image width
                 and height by scaling.
-            </p>
+            </span>
         </div>
 
-        <div class="max-w-screen-xl px-4 py-12 mx-auto space-y-8 overflow-hidden sm:px-6 lg:px-8 mt-5">
-            <div class="quality text-gray-500">
+        <div class="max-w-screen-xl px-4 py-2 mx-auto space-y-8 overflow-hidden sm:px-6 lg:px-8">
+            <div class="quality text-gray-500 mt-6">
+                <div class="slider-container">
+                    <input id="large-range" type="range" value="95" min="10" max="100" step="1"
+                        name="range">
+                    <span id="range-value" class="slider-value">95</span>
+                </div>
                 <h5 class="text-3xl">Image Quality:</h5>
                 <p class="mb-2">
                     Use the slider to select the image compression quality:
@@ -235,14 +262,8 @@
                 <ul class="mb-4">
                     <li>Lower values give better compression (at the cost of image quality). Lowest value is 10.</li>
                     <li>Higher values may increase the size of the image. Higest value is 100.</li>
-                    <li>Default (60) is a good balance between image quality and compression.</li>
+                    <li>Default (95) is a good balance between image quality and compression.</li>
                 </ul>
-
-                <div class="slider-container">
-                    <input id="large-range" type="range" value="60" min="10" max="100" step="1"
-                        name="range">
-                    <span id="range-value" class="slider-value">60</span>
-                </div>
             </div>
         </div>
     </form>
@@ -385,7 +406,7 @@
 
     <script type="text/javascript">
         Dropzone.options.imageUpload = {
-            maxFilesize: 1,
+            maxFilesize: 2,
             acceptedFiles: ".jpeg,.jpg,.png,.gif",
             init: function() {
                 var uploadedImages = [];
@@ -393,13 +414,16 @@
 
                 this.on("success", function(file, response) {
                     if (response && response.file_path) {
-                        console.log(response);
                         uploadedImages.push(response.file_path);
                         uploadedImagesName.push(response.file_name);
 
                         document.getElementById("uploaded-images").value = JSON.stringify(uploadedImages);
                         document.getElementById("uploaded-images-name").value = JSON.stringify(
                             uploadedImagesName);
+
+                        document.getElementById("from-format").classList.remove("hidden");
+                        document.getElementById("from-select").innerHTML = response.file_extension;
+                        document.getElementById("to-text").classList.remove("hidden");
                     }
                 });
             },
