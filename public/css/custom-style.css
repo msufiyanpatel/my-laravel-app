@@ -70,5 +70,74 @@ body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-head
 }
 
 .dropzone.dz-clickable {
-    border-radius: 10px;
+    border-radius: .25rem;
+    border: solid 1px rgb(229 231 235 );
+    background-color: rgba(128, 128, 128, 0.171);
 }
+
+/* quality slider */
+
+
+/* Position the tooltip */
+.slider-container {
+    position: relative;
+}
+
+/* Style the tooltip */
+.slider-value {
+    position: absolute;
+    top: -30px;
+    /* Adjust this value to position the tooltip vertically */
+    left: 50%;
+    margin-left: 14px;
+    transform: translateX(-50%);
+    padding: 5px 10px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    font-size: 12px;
+    border-radius: 4px;
+    pointer-events: none;
+    /* Ensure the tooltip doesn't interfere with the slider */
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+/* Show the tooltip when hovering over the slider */
+.slider-container:hover .slider-value {
+    opacity: 1;
+}
+
+/* Styling for the slider thumb */
+input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 10px;
+    border-radius: 5px;
+    background: #a5b4fc;
+    outline: none;
+    padding: 0;
+    margin: 0;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 2px solid #6b7280;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+
+/* Thumb styles on hover and active states */
+input[type="range"]::-webkit-slider-thumb:hover {
+    background-color: #e5e7eb;
+}
+
+input[type="range"]::-webkit-slider-thumb:active {
+    background-color: #d1d5db;
+}
+
+/* quality slider end */

@@ -2,70 +2,6 @@
 @push('style')
     <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.2.0/min/dropzone.min.js"></script>
-
-    <style>
-        /* Position the tooltip */
-        .slider-container {
-            position: relative;
-        }
-
-        /* Style the tooltip */
-        .slider-value {
-            position: absolute;
-            top: -30px;
-            /* Adjust this value to position the tooltip vertically */
-            left: 50%;
-            margin-left: 14px;
-            transform: translateX(-50%);
-            padding: 5px 10px;
-            background-color: rgba(0, 0, 0, 0.8);
-            color: #fff;
-            font-size: 12px;
-            border-radius: 4px;
-            pointer-events: none;
-            /* Ensure the tooltip doesn't interfere with the slider */
-            opacity: 0;
-            transition: opacity 0.2s;
-        }
-
-        /* Show the tooltip when hovering over the slider */
-        .slider-container:hover .slider-value {
-            opacity: 1;
-        }
-
-        /* Styling for the slider thumb */
-        input[type="range"] {
-            -webkit-appearance: none;
-            width: 100%;
-            height: 10px;
-            border-radius: 5px;
-            background: #a5b4fc;
-            outline: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: #ffffff;
-            border: 2px solid #6b7280;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
-        }
-
-        /* Thumb styles on hover and active states */
-        input[type="range"]::-webkit-slider-thumb:hover {
-            background-color: #e5e7eb;
-        }
-
-        input[type="range"]::-webkit-slider-thumb:active {
-            background-color: #d1d5db;
-        }
-    </style>
 @endpush
 
 @section('content')
@@ -160,46 +96,41 @@
             </div>
         </div>
 
-
         <!-- Add this right after the form tag -->
         @if (count($files) > 0)
-            <div
-                class="max-w-screen-xl p-4 mx-auto space-y-8 overflow-hidden sm:px-6 lg:px-8 mt-5 border border-gray-200 rounded">
-                <h1>Output:</h1>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 ">
-                    @foreach ($files as $key => $data)
-                        <div class="flex justify-center">
-                            <div>
-                                <a href="{{ $data->converted }}" target="_blank" title="Download: {{ $data->file_name }}">
-                                    <img class="object-scale-down h-48 w-96" src="{{ $data->converted }}"
-                                        alt="{{ $data->file_name }}">
-                                    <br>
-                                    <span class="text-blue-400">{{ $data->file_name }}</span>
-                                </a>
-                                <a href="{{ $data->converted }}" target="_blank" download="{{ $data->file_name }}"
-                                    title="Download"
-                                    class="bg-sky-400 hover:bg-blue-500 text-white text-sm py-1 px-1 rounded ml-1">
-                                    Download
-                                </a>
-                                <a href="{{ route('delete.image', routeEncrypt($data->id)) }}" title="Delete this image"
-                                    class="bg-red-400 hover:bg-red-500 text-white text-sm py-1 px-1 rounded ml-1">
-                                    Delete
-                                </a>
+            <div class="max-w-screen-xl px-4 mx-auto space-y-8 overflow-hidden sm:px-6 lg:px-8 mt-5">
+                <div class="p-4 space-y-8 border border-gray-200 rounded">
+                    <h1>Output:</h1>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        @foreach ($files as $key => $data)
+                            <div class="flex justify-center">
+                                <div>
+                                    <a href="{{ $data->converted }}" target="_blank"
+                                        title="Download: {{ $data->file_name }}">
+                                        <img class="object-scale-down h-48 w-96" src="{{ $data->converted }}"
+                                            alt="{{ $data->file_name }}">
+                                        <br>
+                                        <span class="text-blue-400">{{ $data->file_name }}</span>
+                                    </a>
+                                    <a href="{{ $data->converted }}" target="_blank" download="{{ $data->file_name }}"
+                                        title="Download"
+                                        class="bg-sky-400 hover:bg-blue-500 text-white text-sm py-1 px-1 rounded ml-1">
+                                        Download
+                                    </a>
+                                    <a href="{{ route('delete.image', routeEncrypt($data->id)) }}"
+                                        title="Delete this image"
+                                        class="bg-red-400 hover:bg-red-500 text-white text-sm py-1 px-1 rounded ml-1">
+                                        Delete
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                    @endforeach
+                        @endforeach
+                    </div>
                 </div>
             </div>
         @endif
 
-        <div class="max-w-screen-xl px-4 mx-auto space-y-8 overflow-hidden sm:px-6 lg:px-8">
-            <div class="container flex justify-between">
-                <h2>OPTIONS</h2>
-                <svg width="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm2-13c0 .28-.21.8-.42 1L10 9.58c-.57.58-1 1.6-1 2.42v1h2v-1c0-.29.21-.8.42-1L13 9.42c.57-.58 1-1.6 1-2.42a4 4 0 1 0-8 0h2a2 2 0 1 1 4 0zm-3 8v2h2v-2H9z" />
-                </svg>
-            </div>
+        <div class="max-w-screen-xl px-4 mx-auto space-y-8 overflow-hidden sm:px-6 lg:px-8 mt-5">
             <div class="flex justify-center">
                 <div class="flex flex-wrap-mx-3 mb-2">
                     <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
@@ -268,18 +199,14 @@
         </div>
     </form>
 
-
-
-
-    <div class="max-w-screen-xl p-4 mx-auto space-y-8 overflow-hidden sm:px-6 lg:px-8 flex justify-center"
-        id="recent-button-section">
-        <button type="button" onclick="loadRecentImages()" title="View your last 12 converted images"
-            class="py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
-            Recently converted images
-        </button>
+    <div class="max-w-screen-xl px-4 mx-auto space-y-8 overflow-hidden sm:px-6 lg:px-8 flex justify-center">
+        <div class="p-4 space-y-8" id="recent-button-section">
+            <button type="button" onclick="loadRecentImages()" title="View your last 12 converted images"
+                class="py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
+                Recently converted images
+            </button>
+        </div>
     </div>
-
-
 
     {{-- middle add --}}
     @if ($middle_add && $middle_add->status == 1)
