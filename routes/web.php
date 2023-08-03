@@ -12,6 +12,7 @@ use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\PageBuilderController;
 use App\Http\Controllers\Backend\UserManagementController;
 use App\Http\Controllers\Backend\WebsiteSettingController;
+use App\Http\Controllers\ImageHandlerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,8 +27,9 @@ use App\Http\Controllers\Backend\WebsiteSettingController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::post('dropzone/store', [HomeController::class, 'dropzoneStore'])->name('dropzone.store');
-Route::post('convert', [HomeController::class, 'convertImages'])->name('convert');
+Route::post('dropzone/store', [ImageHandlerController::class, 'dropzoneStore'])->name('dropzone.store');
+Route::post('convert', [ImageHandlerController::class, 'convertImages'])->name('convert');
+
 Route::get('recent-images', [HomeController::class, 'recentImages'])->name('recent.images');
 Route::get('delete-image/{id}', [HomeController::class, 'deleteImage'])->name('delete.image');
 

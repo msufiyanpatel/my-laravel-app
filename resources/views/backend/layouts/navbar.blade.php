@@ -15,8 +15,9 @@
         </li>
         <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#">
-                <i class="fas fa-user-circle"></i>
-                <i class="fas fa-angle-double-down"></i>
+                <img src="{{ auth()->user()->pro_pic }}" class="img-circle elevation-2"
+                    height="25" width="25" alt="User Image">
+                    <i class="fas fa-level-down-alt"></i>
             </a>
             <div class="dropdown-menu ">
                 <a href="{{ route('backend.admin.profile') }}" class="dropdown-item dropdown-footer">

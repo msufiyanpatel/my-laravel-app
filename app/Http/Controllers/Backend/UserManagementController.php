@@ -4,13 +4,9 @@ namespace App\Http\Controllers\Backend;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Rules\ValidImageType;
 use App\Models\ConversionHistory;
-use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
-use App\Http\Controllers\ImageHandlerController;
-use Carbon\Carbon;
 
 class UserManagementController extends Controller
 {
