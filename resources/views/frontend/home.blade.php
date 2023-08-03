@@ -43,6 +43,8 @@
                 </svg>
             </div>
             <span>Drop file here to upload</span>
+            <br>
+            <small>[Max: 2mb]</small>
         </div>
 
         {!! Form::close() !!}
@@ -107,20 +109,22 @@
                                 <div>
                                     <a href="{{ $data->converted }}" target="_blank"
                                         title="Download: {{ $data->file_name }}">
-                                        <img class="object-scale-down h-48 w-96" src="{{ $data->converted }}"
-                                            alt="{{ $data->file_name }}">
+                                        <div class="flex justify-center h-48">
+                                            <img class="object-contain" width="auto" src="{{ $data->converted }}"
+                                                alt="{{ $data->file_name }}">
+                                        </div>
                                         <br>
                                         <span class="text-blue-400">{{ $data->file_name }}</span>
                                     </a>
                                     <a href="{{ $data->converted }}" target="_blank" download="{{ $data->file_name }}"
                                         title="Download"
-                                        class="bg-sky-400 hover:bg-blue-500 text-white text-sm py-1 px-1 rounded ml-1">
-                                        Download
+                                        class="bg-sky-400 hover:bg-blue-500 text-white text-sm py-1 m-1 rounded">
+                                        <span class="p-1">Download</span>
                                     </a>
                                     <a href="{{ route('delete.image', routeEncrypt($data->id)) }}"
                                         title="Delete this image"
-                                        class="bg-red-400 hover:bg-red-500 text-white text-sm py-1 px-1 rounded ml-1">
-                                        Delete
+                                        class="bg-red-400 hover:bg-red-500 text-white text-sm py-1 m-1 rounded">
+                                        <span class="p-1">Delete</span>
                                     </a>
                                 </div>
                             </div>
@@ -352,6 +356,16 @@
                         document.getElementById("from-select").innerHTML = response.file_extension;
                         document.getElementById("to-text").classList.remove("hidden");
                     }
+                });
+
+                this.on("error", function(file, message) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: message,
+                        showConfirmButton: false,
+                        timer: 1800
+                    });
+                    this.removeFile(file);
                 });
             },
         };
