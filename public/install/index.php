@@ -195,7 +195,7 @@ function setAdminEmail($pt)
 }
 //------------->> Extension & Permission
 $requiredServerExtensions = [
-	'Fileinfo', 'JSON', 'Mbstring', 'OpenSSL', 'PDO', 'pdo_mysql', 'cURL',  'GD'
+	'Fileinfo', 'JSON', 'Mbstring', 'OpenSSL', 'PDO', 'pdo_mysql', 'cURL'
 ];
 
 $folderPermissions = [
