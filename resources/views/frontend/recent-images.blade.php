@@ -8,7 +8,7 @@
                             <img class="object-contain" width="auto" src="{{ $data->converted }}" alt="{{ $data->file_name }}">
                         </div>
                         <br>
-                        <span class="text-blue-400">{{ $data->file_name }}</span>
+                        <span class="text-blue-400">{{ substr($data->file_name, -10) }}</span>
                     </a>
                     <a href="{{ $data->converted }}" target="_blank" download="{{ $data->file_name }}" title="Download"
                         class="bg-sky-400 hover:bg-blue-500 text-white text-sm py-1 m-1 rounded">

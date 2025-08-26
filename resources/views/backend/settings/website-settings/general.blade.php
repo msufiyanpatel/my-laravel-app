@@ -76,12 +76,20 @@
                                 <input class="form-control" name="site_url" type="url"
                                     value="{{ readConfig('site_url') }}" placeholder="Enter Site URL">
                             </div>
+
+                            <div class="form-group">
+                                <label class="text-primary">Delete Old Images After (Days)</label>
+                                <input class="form-control" name="trash_expiration" type="number"
+                                    value="{{ readConfig('trash_expiration') }}" placeholder="">
+                                <small class="text-danger">[N.B: Set an expiration time (in days) for cleaning up old files.
+                                    Set the fill empty if you don't want to delete any files.]</small>
+                            </div>
                         </div>
                     </form>
 
                 </div>
-                <div class="tab-pane fade {{ @$_GET['active-tab'] == 'social-links' ? 'active show' : '' }}" id="tabs-3"
-                    role="tabpanel" aria-labelledby="vert-tabs-3">
+                <div class="tab-pane fade {{ @$_GET['active-tab'] == 'social-links' ? 'active show' : '' }}"
+                    id="tabs-3" role="tabpanel" aria-labelledby="vert-tabs-3">
                     <form action="{{ route('backend.admin.settings.website.social.link.update') }}" method="post">
                         @csrf
                         <div class="col-md-12 d-flex justify-content-between">

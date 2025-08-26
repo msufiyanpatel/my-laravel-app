@@ -1,125 +1,68 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        Reset Password | Start a BUSINESS today! We can deliver you a full project within one minute!
-    </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ readConfig('site_name') }}</title>
+
     <!-- FAVICON ICON -->
-    <link rel="shortcut icon" href="{{ asset('assets/images/logo/logo.png') }}" type="image/svg+xml">
-    <!-- BACK-TOP CSS -->
-    <link rel="stylesheet" href="{{ asset('assets/css/back-top/backToTop.css') }}">
-    <!-- BOOTSTRAP CSS (5.3) -->
-    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap/bootstrap.min.css') }}">
-    <!-- APP-CSS -->
-    <link rel="stylesheet" href="{{ asset('assets/css/style.min.css') }}">
+    <link rel="shortcut icon" href="{{ assetImage(readconfig('favicon_icon')) }}" type="image/svg+xml">
+
+    <!-- FAVICON ICON APPLE -->
+    <link href="{{ assetImage(readconfig('favicon_icon_apple')) }}" rel="apple-touch-icon">
+    <link href="{{ assetImage(readconfig('favicon_icon_apple')) }}" rel="apple-touch-icon" sizes="72x72">
+    <link href="{{ assetImage(readconfig('favicon_icon_apple')) }}" rel="apple-touch-icon" sizes="114x114">
+    <link href="{{ assetImage(readconfig('favicon_icon_apple')) }}" rel="apple-touch-icon" sizes="144x144">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body>
-    <x-simple-alert />
+    @include('simple-alert')
 
-    <!-- AUTHENTICATION-START (LOGIN) -->
-    <section class="authentications">
-        <div class="left-content">
-            <figure class="">
-                <img src="{{ asset('assets/images/authentication/login.svg') }}" alt="register image ">
-            </figure>
-        </div>
-        <div class="right-content">
-            <form action="{{ route('password.reset') }}" method="post" class="authentication-form px-lg-5 forgot-form">
-                @csrf
-                <div class="authentication-form-header">
-                    <a href="{{ route('home') }}" class="logo">
-                        <img src="{{ asset('assets/images/logo/logo.png') }}" width="200px" alt="brand-logo">
-                    </a>
-                    <h3 class="form-title">Password Reset</h3>
-                    <p class="form-des">Please enter the code we emailed you.</p>
+    <div class="bg-gradient-to-tr from-fuchsia-300 to-sky-500">
+        <section id="login" class="p-4 flex flex-col justify-center min-h-screen max-w-md mx-auto">
+            <div class="p-6 bg-sky-100 rounded">
+                <div class="flex items-center justify-center font-black m-3 mb-12">
+                    <img src="{{ assetImage(readconfig('site_logo')) }}" alt="Logo" width="40px">
+                    <h1 class="tracking-wide text-3xl text-gray-900">
+                        Password Reset
+                    </h1>
                 </div>
-                <div class="authentication-form-content">
-                    <div class="row g-4">
-                        <div class="col-12">
-                            <div class="otp-container">
-                                <input type="text" maxlength="1" name="number_1" required />
-                                <input type="text" maxlength="1" name="number_2" required />
-                                <input type="text" maxlength="1" name="number_3" required />
-                                <input type="text" maxlength="1" name="number_4" required />
-                                <input type="text" maxlength="1" name="number_5" required />
-                            </div>
-                        </div>
 
-                        <div class="col-12">
-                            <div class="form-group">
-                                <button type="submit" class="create-account-btn w-100">Continue</button>
-                            </div>
-                        </div>
+                <form action="{{ route('password.reset') }}" method="post" class="flex flex-col justify-center">
+                    @csrf
+                    <label class="text-sm font-medium">Please enter the code we emailed you.</label>
+                    <input
+                        class="mb-3 px-2 py-1.5
+                                mb-3 mt-1 block w-full px-2 py-1.5 border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
+                                focus:outline-none
+                                focus:border-sky-500
+                                focus:ring-1
+                                focus:ring-sky-500
+                                focus:invalid:border-red-500 focus:invalid:ring-red-500"
+                        type="number" name="code" placeholder="Enter code" required>
+
+                    <button
+                        class="px-4 py-1.5 rounded-md shadow-lg bg-gradient-to-r from-pink-600 to-red-600 font-medium text-gray-100 block transition duration-300"
+                        type="submit">
+                        <span>Continue</span>
+                    </button>
+
+                    <div class="w-full flex justify-end mt-1">
+                        <a href="{{ route('resend.otp') }}" class="text-red-500">
+                            Didn’t receive the email? Click to resend.
+                        </a>
                     </div>
-                </div>
-                <div class="authentication-form-footer">
-                    <p>Didn’t receive the email? Click to <a href="{{ route('resend.otp') }}">resend </a></p>
-                    <p>Back to <a href="{{ route('login') }}">Log in </a></p>
-                </div>
-            </form>
-        </div>
-    </section>
-    <!-- AUTHENTICATION-END -->
+                    <div class="w-full flex justify-end mt-1">
+                        <a href="{{ route('login') }}"> Back to Log in !</a>
+                    </div>
+                </form>
 
+            </div>
+        </section>
 
-    <!-- BOOTSTRAP JS (5.3) -->
-    <script src="{{ asset('assets/js/bootstrap/bootstrap.bundle.min.js') }}"></script>
-    <!-- BOOTSTRAP-TOOLTIP -->
-    <script src="{{ asset('assets/js/tooltip/tooltip.js') }}"></script>
-    <!-- BACK-TOP JS -->
-    <script src="{{ asset('assets/js/back-top/backToTop.js') }}"></script>
-    <script src="{{ asset('assets/js/back-top/backtop.js') }}"></script>
-    <!-- COPYRIGHT JS -->
-    <script src="{{ asset('assets/js/copyright/copyright.js') }}"></script>
-    <script>
-        const otpInputs = document.querySelectorAll('.otp-container input[type="text"]');
-
-        otpInputs.forEach((input, index) => {
-            input.addEventListener('input', (event) => {
-                const inputLength = event.target.value.length;
-
-                if (inputLength === 1) {
-                    if (index < otpInputs.length - 1) {
-                        otpInputs[index + 1].focus();
-                    } else {
-                        otpInputs[index].blur();
-                    }
-                } else if (inputLength === 0) {
-                    if (index > 0) {
-                        otpInputs[index - 1].focus();
-                    }
-                }
-
-                updateInputStyles();
-            });
-
-            input.addEventListener('keydown', (event) => {
-                const key = event.keyCode || event.charCode;
-
-                if (key === 8 && input.value.length === 0 && index > 0) {
-                    otpInputs[index - 1].focus();
-                }
-
-                updateInputStyles();
-            });
-        });
-
-        function updateInputStyles() {
-            otpInputs.forEach((input) => {
-                if (input.value.length > 0) {
-                    input.classList.add('filled');
-                } else {
-                    input.classList.remove('filled');
-                }
-            });
-        }
-    </script>
-
+    </div>
 </body>
 
 </html>

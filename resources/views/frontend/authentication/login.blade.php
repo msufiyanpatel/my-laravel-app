@@ -75,6 +75,9 @@
                         class="flex justify-center px-4 py-1.5 rounded-md shadow-lg bg-gradient-to-r from-blue-600 to-purple-600 font-medium text-gray-100 block transition duration-300">
                         <span>Register</span>
                     </a>
+                    <div class="w-full flex justify-end mt-1">
+                        <a href="{{ route('forget.password') }}">Forgot password ?</a>
+                    </div>
                 </form>
 
             </div>

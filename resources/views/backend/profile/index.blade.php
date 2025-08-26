@@ -33,18 +33,25 @@
                 </div>
                 <h4 class="font-weight-bold">Password change</h4>
                 <div class="row g-4">
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
                         <div class="form-group">
                             <label for="password" class="form-label">Current password</label>
                             <input type="password" class="form-control" id="password" placeholder="Enter your password"
                                 name="current_password" autocomplete="new-password">
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label for="newPassword" class="form-label">New password</label>
+                            <input type="password" class="form-control" id="newPassword" placeholder="New password"
+                                name="new_password">
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
                         <div class="form-group">
                             <label for="confirmPassword" class="form-label">Confirm password</label>
                             <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm password"
-                                name="new_password">
+                                name="new_password_confirmation">
                         </div>
                     </div>
                     <div class="col-lg-12">

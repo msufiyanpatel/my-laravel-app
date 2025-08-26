@@ -204,4 +204,26 @@ class ImageHandlerController extends Controller
             'file_path' => $path
         ]);
     }
+
+    public function trashOldFile()
+    {
+        if (readConfig('trash_expiration')) {
+            $expiration = now()->subDays(readConfig('trash_expiration'))->toDateString();
+
+            $results = ConversionHistory::with('items')->whereDate('created_at', '<', $expiration)->get();
+            if ($results->count() > 0) {
+                foreach ($results as $data) {
+                    foreach ($data->items as $item) {
+                        $this->secureUnlink($item->file_url);
+                        $this->secureUnlink($item->original_url);
+
+                        $item->delete();
+                    }
+                    $data->delete();
+                }
+            }
+        }
+
+        return true;
+    }
 }

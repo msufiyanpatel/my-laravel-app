@@ -59,7 +59,8 @@ Route::get('user/auth-check', [AuthController::class, 'userAuthCheck'])->name('u
 Route::post('update-profile', [AuthController::class, 'updateProfile'])->name('user.update.profile')->middleware('auth');
 
 // frontend.user.dashboard
-Route::get('dashboard', [UserDashboardController::class, 'index'])->name('frontend.user.dashboard');
+Route::get('user/history', [UserDashboardController::class, 'index'])->name('frontend.user.dashboard');
+Route::match(['get', 'post'], 'user/profile', [UserDashboardController::class, 'profile'])->name('frontend.user.profile')->middleware('auth');
 
 // ====================== BACKEND =======================
 

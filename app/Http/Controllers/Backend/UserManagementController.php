@@ -147,7 +147,7 @@ class UserManagementController extends Controller
                                 </a>
                                 <a href="' . route('delete.image', routeEncrypt($value->id)) . '"
                                     class="btn btn-sm bg-danger">
-                                    Download
+                                    Delete
                                 </a>
                             </li>';
                     }

@@ -29,4 +29,5 @@
   'google_sign_up_status' => 1,
   'google_client_id' => '457729777521-9g7e2v43fseh8m44dkf9j747sedhuk6t.apps.googleusercontent.com',
   'google_client_secret' => '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',
+  'trash_expiration' => '30',
 );

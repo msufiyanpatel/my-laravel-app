@@ -4,13 +4,8 @@
     <section class="max-w-screen-xl mx-auto space-y-8 overflow-hidden sm:px-6 lg:px-8">
         <div class="w-full mx-auto mt-2">
             <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded bg-white">
-                <div class="rounded-t mb-0 px-4 py-3 border-0">
-                    <div class="flex justify-center">
-                        <h3 class="font-semibold text-base text-gray-700">
-                            Convert History
-                        </h3>
-                    </div>
-                </div>
+                
+                @include('frontend.dashboard.user-nav')
 
                 <div class="block w-full overflow-x-auto">
                     <table class="items-center w-full text-gray-700">

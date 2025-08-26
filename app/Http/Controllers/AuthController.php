@@ -41,17 +41,20 @@ class AuthController extends Controller
             $credentials['password'] = $request->password;
             $credentials['remember'] = $remember;
             $credentials['previous_url'] = $request->previous_url;
-            
+
             $valid = Arr::only($credentials, ['email', 'password']);
 
             if (Auth::attempt($valid, $credentials['remember'])) {
                 session()->regenerate();
-        
+
+                // trash old/expired files
+                $imageHandler = new ImageHandlerController();
+                $imageHandler->trashOldFile();
+
                 return $this->userRedirect();
             } else {
                 return redirect()->route('login')->with('error', 'Incorrect email or password');
             }
-
         } else {
             if (auth()->user()) {
                 return $this->userRedirect();
@@ -77,7 +80,7 @@ class AuthController extends Controller
                 'username' => uniqid(),
                 'type' => 'User'
             ]);
-            
+
             if ($newUser) {
                 $request->session()->regenerate();
                 Auth::login($newUser);
@@ -124,7 +127,11 @@ class AuthController extends Controller
                     'name' => $findUser->name,
                 ];
 
-                Mail::to($findUser->email)->send(new PasswordReset($mailData));
+                try {
+                    Mail::to($findUser->email)->send(new PasswordReset($mailData));
+                } catch (\Throwable $th) {
+                    //throw $th;
+                }
 
                 return redirect()->route('password.reset')->with('success', 'Check your inbox for otp code');
             } else {
@@ -155,7 +162,12 @@ class AuthController extends Controller
                 'otp' => $otp,
                 'name' => $user->name,
             ];
-            Mail::to($findUser->email)->send(new PasswordReset($mailData));
+
+            try {
+                Mail::to($findUser->email)->send(new PasswordReset($mailData));
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
 
             return back()->with('success', 'Otp resent successfully');
         } else {
@@ -191,13 +203,9 @@ class AuthController extends Controller
     {
         if ($request->isMethod('post')) {
             $request->validate([
-                'number_1' => 'required',
-                'number_2' => 'required',
-                'number_3' => 'required',
-                'number_4' => 'required',
-                'number_5' => 'required',
+                'code' => 'required|max:5',
             ]);
-            $otp = $request->number_1 . $request->number_2 . $request->number_3 . $request->number_4 . $request->number_5;
+            $otp = $request->code;
 
             $record = ForgetPassword::where('email', session('reset-email'))
                 ->where('otp', $otp)
@@ -298,29 +306,21 @@ class AuthController extends Controller
             $user->profile_image = $imageController->uploadImageAndGetPath($request->file("profile_image"), "/public/media/users");
         }
 
-        if ($request->current_password || $request->password) {
-
+        if ($request->current_password || $request->new_password) {
             $request->validate([
-                'password' => 'required|min:6|confirmed',
+                'current_password' => 'required|min:6',
+                'new_password' => 'required|min:6|confirmed',
             ]);
 
-            if ($user->is_google_registered) {
-                $user->is_google_registered = false;
-            } else {
-                $request->validate([
-                    'current_password' => 'required',
+            $currentPassword = $request->current_password;
+
+            if (!Hash::check($currentPassword, $user->password)) {
+                throw ValidationException::withMessages([
+                    'current_password' => 'The current password is incorrect',
                 ]);
-
-                $currentPassword = $request->current_password;
-
-                if (!Hash::check($currentPassword, $user->password)) {
-                    throw ValidationException::withMessages([
-                        'current_password' => 'The current password is incorrect',
-                    ]);
-                }
             }
 
-            $user->password = bcrypt($request->password);
+            $user->password = bcrypt($request->new_password);
         }
 
         $user->save();
