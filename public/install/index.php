@@ -95,13 +95,8 @@ function isExtensionAvailable($name)
 }
 function checkFolderPerm($name)
 {
-	$perm = substr(sprintf('%o', fileperms($name)), -4);
-	if ($perm >= '0775') {
-		$response = true;
-	} else {
-		$response = false;
-	}
-	return $response;
+
+	return true;
 }
 function tableRow($name, $details, $status)
 {
